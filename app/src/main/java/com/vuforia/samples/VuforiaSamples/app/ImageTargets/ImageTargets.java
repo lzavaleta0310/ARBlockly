@@ -55,9 +55,7 @@ import com.vuforia.samples.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuGroup;
 import com.vuforia.samples.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuInterface;
 
 
-public class ImageTargets extends Activity implements SampleApplicationControl,
-    SampleAppMenuInterface
-{
+public class ImageTargets extends Activity implements SampleApplicationControl {
     private static final String LOGTAG = "ImageTargets";
     
     SampleApplicationSession vuforiaAppSession;
@@ -88,8 +86,6 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
     private View mFlashOptionView;
     
     private RelativeLayout mUILayout;
-    
-    private SampleAppMenu mSampleAppMenu;
 
     LoadingDialogHandler loadingDialogHandler = new LoadingDialogHandler(this);
     
@@ -232,13 +228,6 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
             mGlView.onPause();
         }
         
-        // Turn off the flash
-        if (mFlashOptionView != null && mFlash)
-        {
-            // OnCheckedChangeListener is called upon changing the checked state
-            setMenuToggle(mFlashOptionView, false);
-        }
-        
         try
         {
             vuforiaAppSession.pauseAR();
@@ -306,8 +295,7 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
             .sendEmptyMessage(LoadingDialogHandler.SHOW_LOADING_DIALOG);
         
         // Adds the inflated layout to the view
-        addContentView(mUILayout, new LayoutParams(LayoutParams.MATCH_PARENT,
-            LayoutParams.MATCH_PARENT));
+        addContentView(mUILayout, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         
     }
     
@@ -405,23 +393,10 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
             if(!CameraDevice.getInstance().setFocusMode(CameraDevice.FOCUS_MODE.FOCUS_MODE_CONTINUOUSAUTO))
             {
                 // If continuous autofocus mode fails, attempt to set to a different mode
-                if(!CameraDevice.getInstance().setFocusMode(CameraDevice.FOCUS_MODE.FOCUS_MODE_TRIGGERAUTO))
-                {
+                if(!CameraDevice.getInstance().setFocusMode(CameraDevice.FOCUS_MODE.FOCUS_MODE_TRIGGERAUTO)) {
                     CameraDevice.getInstance().setFocusMode(CameraDevice.FOCUS_MODE.FOCUS_MODE_NORMAL);
                 }
-
-                // Update Toggle state
-                setMenuToggle(mFocusOptionView, false);
             }
-            else
-            {
-                // Update Toggle state
-                setMenuToggle(mFocusOptionView, true);
-            }
-        }
-        else
-        {
-            setMenuToggle(mFocusOptionView, false);
         }
 
         showProgressIndicator(false);
@@ -471,12 +446,7 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
             
             vuforiaAppSession.startAR(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_DEFAULT);
             
-            mSampleAppMenu = new SampleAppMenu(this, this, "Image Targets",
-                mGlView, mUILayout, null);
-            setSampleAppMenuSettings();
-            
-        } else
-        {
+        } else {
             Log.e(LOGTAG, exception.getString());
             showInitializationErrorMessage(exception.getString());
         }
@@ -611,12 +581,7 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
     
     
     @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        // Process the Gestures
-        if (mSampleAppMenu != null && mSampleAppMenu.processEvent(event))
-            return true;
-        
+    public boolean onTouchEvent(MotionEvent event) {
         return mGestureDetector.onTouchEvent(event);
     }
     
@@ -633,200 +598,6 @@ public class ImageTargets extends Activity implements SampleApplicationControl,
     final public static int CMD_CAMERA_FRONT = 4;
     final public static int CMD_CAMERA_REAR = 5;
     final public static int CMD_DATASET_START_INDEX = 6;
-    
-    
-    // This method sets the menu's settings
-    private void setSampleAppMenuSettings()
-    {
-        SampleAppMenuGroup group;
-        
-        group = mSampleAppMenu.addGroup("", false);
-        group.addTextItem(getString(R.string.menu_back), -1);
-        
-        group = mSampleAppMenu.addGroup("", true);
-        group.addSelectionItem(getString(R.string.menu_extended_tracking),
-            CMD_EXTENDED_TRACKING, false);
-        mFocusOptionView = group.addSelectionItem(getString(R.string.menu_contAutofocus),
-            CMD_AUTOFOCUS, mContAutofocus);
-        mFlashOptionView = group.addSelectionItem(
-            getString(R.string.menu_flash), CMD_FLASH, false);
-        
-        CameraInfo ci = new CameraInfo();
-        boolean deviceHasFrontCamera = false;
-        boolean deviceHasBackCamera = false;
-        for (int i = 0; i < Camera.getNumberOfCameras(); i++)
-        {
-            Camera.getCameraInfo(i, ci);
-            if (ci.facing == CameraInfo.CAMERA_FACING_FRONT)
-                deviceHasFrontCamera = true;
-            else if (ci.facing == CameraInfo.CAMERA_FACING_BACK)
-                deviceHasBackCamera = true;
-        }
-        
-        if (deviceHasBackCamera && deviceHasFrontCamera)
-        {
-            group = mSampleAppMenu.addGroup(getString(R.string.menu_camera),
-                true);
-            group.addRadioItem(getString(R.string.menu_camera_front),
-                CMD_CAMERA_FRONT, false);
-            group.addRadioItem(getString(R.string.menu_camera_back),
-                CMD_CAMERA_REAR, true);
-        }
-        
-        group = mSampleAppMenu
-            .addGroup(getString(R.string.menu_datasets), true);
-        mStartDatasetsIndex = CMD_DATASET_START_INDEX;
-        mDatasetsNumber = mDatasetStrings.size();
-        
-        group.addRadioItem("Stones & Chips", mStartDatasetsIndex, true);
-        group.addRadioItem("Tarmac", mStartDatasetsIndex + 1, false);
-        
-        mSampleAppMenu.attachMenu();
-    }
-
-
-    private void setMenuToggle(View view, boolean value)
-    {
-        // OnCheckedChangeListener is called upon changing the checked state
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
-        {
-            ((Switch) view).setChecked(value);
-        } else
-        {
-            ((CheckBox) view).setChecked(value);
-        }
-    }
-    
-    
-    @Override
-    public boolean menuProcess(int command)
-    {
-        
-        boolean result = true;
-        
-        switch (command)
-        {
-            case CMD_BACK:
-                finish();
-                break;
-            
-            case CMD_FLASH:
-                result = CameraDevice.getInstance().setFlashTorchMode(!mFlash);
-                
-                if (result)
-                {
-                    mFlash = !mFlash;
-                } else
-                {
-                    showToast(getString(mFlash ? R.string.menu_flash_error_off
-                        : R.string.menu_flash_error_on));
-                    Log.e(LOGTAG,
-                        getString(mFlash ? R.string.menu_flash_error_off
-                            : R.string.menu_flash_error_on));
-                }
-                break;
-            
-            case CMD_AUTOFOCUS:
-                
-                if (mContAutofocus)
-                {
-                    result = CameraDevice.getInstance().setFocusMode(
-                        CameraDevice.FOCUS_MODE.FOCUS_MODE_NORMAL);
-                    
-                    if (result)
-                    {
-                        mContAutofocus = false;
-                    } else
-                    {
-                        showToast(getString(R.string.menu_contAutofocus_error_off));
-                        Log.e(LOGTAG,
-                            getString(R.string.menu_contAutofocus_error_off));
-                    }
-                } else
-                {
-                    result = CameraDevice.getInstance().setFocusMode(
-                        CameraDevice.FOCUS_MODE.FOCUS_MODE_CONTINUOUSAUTO);
-                    
-                    if (result)
-                    {
-                        mContAutofocus = true;
-                    } else
-                    {
-                        showToast(getString(R.string.menu_contAutofocus_error_on));
-                        Log.e(LOGTAG,
-                            getString(R.string.menu_contAutofocus_error_on));
-                    }
-                }
-                
-                break;
-            
-            case CMD_CAMERA_FRONT:
-            case CMD_CAMERA_REAR:
-                
-                // Turn off the flash
-                if (mFlashOptionView != null && mFlash)
-                {
-                    setMenuToggle(mFlashOptionView, false);
-                }
-                
-                vuforiaAppSession.stopCamera();
-
-                vuforiaAppSession
-                    .startAR(command == CMD_CAMERA_FRONT ? CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_FRONT
-                        : CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_BACK);
-
-                break;
-            
-            case CMD_EXTENDED_TRACKING:
-                for (int tIdx = 0; tIdx < mCurrentDataset.getNumTrackables(); tIdx++)
-                {
-                    Trackable trackable = mCurrentDataset.getTrackable(tIdx);
-                    
-                    if (!mExtendedTracking)
-                    {
-                        if (!trackable.startExtendedTracking())
-                        {
-                            Log.e(LOGTAG,
-                                "Failed to start extended tracking target");
-                            result = false;
-                        } else
-                        {
-                            Log.d(LOGTAG,
-                                "Successfully started extended tracking target");
-                        }
-                    } else
-                    {
-                        if (!trackable.stopExtendedTracking())
-                        {
-                            Log.e(LOGTAG,
-                                "Failed to stop extended tracking target");
-                            result = false;
-                        } else
-                        {
-                            Log.d(LOGTAG,
-                                "Successfully started extended tracking target");
-                        }
-                    }
-                }
-                
-                if (result)
-                    mExtendedTracking = !mExtendedTracking;
-                
-                break;
-            
-            default:
-                if (command >= mStartDatasetsIndex
-                    && command < mStartDatasetsIndex + mDatasetsNumber)
-                {
-                    mSwitchDatasetAsap = true;
-                    mCurrentDatasetSelectionIndex = command
-                        - mStartDatasetsIndex;
-                }
-                break;
-        }
-        
-        return result;
-    }
     
     
     private void showToast(String text)

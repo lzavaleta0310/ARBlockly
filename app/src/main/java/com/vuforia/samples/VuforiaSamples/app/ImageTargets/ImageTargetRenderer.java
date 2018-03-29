@@ -30,6 +30,7 @@ import com.vuforia.Vuforia;
 import com.vuforia.samples.SampleApplication.SampleAppRenderer;
 import com.vuforia.samples.SampleApplication.SampleAppRendererControl;
 import com.vuforia.samples.SampleApplication.SampleApplicationSession;
+import com.vuforia.samples.SampleApplication.utils.CubeObject;
 import com.vuforia.samples.SampleApplication.utils.CubeShaders;
 import com.vuforia.samples.SampleApplication.utils.LoadingDialogHandler;
 import com.vuforia.samples.SampleApplication.utils.SampleApplication3DModel;
@@ -39,8 +40,7 @@ import com.vuforia.samples.SampleApplication.utils.Texture;
 
 
 // The renderer class for the ImageTargets sample. 
-public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRendererControl
-{
+public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRendererControl {
     private static final String LOGTAG = "ImageTargetRenderer";
     
     private SampleApplicationSession vuforiaAppSession;
@@ -55,23 +55,27 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRen
     private int mvpMatrixHandle;
     private int texSampler2DHandle;
     
-    private Teapot mTeapot;
+    //private Teapot mTeapot;
+    private CubeObject mCube;
     
     private float kBuildingScale = 0.012f;
     private SampleApplication3DModel mBuildingsModel;
 
     private boolean mIsActive = false;
     private boolean mModelIsLoaded = false;
-    
-    private static final float OBJECT_SCALE_FLOAT = 0.003f;
+
+    /**
+     * ARB - Valor para escalar el  modelo
+     * Cuando se trata de la tetera el valor para un modelo optimo es de 0.002f
+     * En el caso del cubo, un valor adecuado es 0.015f
+     */
+    private static final float OBJECT_SCALE_FLOAT = 0.015f;
     
     
     public ImageTargetRenderer(ImageTargets activity, SampleApplicationSession session)
     {
         mActivity = activity;
         vuforiaAppSession = session;
-        // SampleAppRenderer used to encapsulate the use of RenderingPrimitives setting
-        // the device mode AR/VR and stereo mode
         mSampleAppRenderer = new SampleAppRenderer(this, mActivity, Device.MODE.MODE_AR, false, 0.01f , 5f);
     }
     
@@ -159,7 +163,8 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRen
             "texSampler2D");
 
         if(!mModelIsLoaded) {
-            mTeapot = new Teapot();
+            //mTeapot = new Teapot();
+            mCube = new CubeObject();
 
             try {
                 mBuildingsModel = new SampleApplication3DModel();
@@ -230,10 +235,11 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRen
             GLES20.glUseProgram(shaderProgramID);
 
             if (!mActivity.isExtendedTrackingActive()) {
-                GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
-                        false, 0, mTeapot.getVertices());
-                GLES20.glVertexAttribPointer(textureCoordHandle, 2,
-                        GLES20.GL_FLOAT, false, 0, mTeapot.getTexCoords());
+                //GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT, false, 0, mTeapot.getVertices());
+                //GLES20.glVertexAttribPointer(textureCoordHandle, 2, GLES20.GL_FLOAT, false, 0, mTeapot.getTexCoords());
+
+                GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT, false, 0, mCube.getVertices());
+                GLES20.glVertexAttribPointer(textureCoordHandle, 2, GLES20.GL_FLOAT, false, 0, mCube.getTexCoords());
 
                 GLES20.glEnableVertexAttribArray(vertexHandle);
                 GLES20.glEnableVertexAttribArray(textureCoordHandle);
@@ -249,9 +255,8 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRen
                         modelViewProjection, 0);
 
                 // finally draw the teapot
-                GLES20.glDrawElements(GLES20.GL_TRIANGLES,
-                        mTeapot.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
-                        mTeapot.getIndices());
+                //GLES20.glDrawElements(GLES20.GL_TRIANGLES, mTeapot.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT, mTeapot.getIndices());
+                GLES20.glDrawElements(GLES20.GL_TRIANGLES, mCube.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT, mCube.getIndices());
 
                 // disable the enabled arrays
                 GLES20.glDisableVertexAttribArray(vertexHandle);
