@@ -1,0 +1,37 @@
+[{
+  "type": "arblock_mover",
+  "message0": "mover %1 %2 %3",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "drop_mover",
+      "options": [
+        [
+          "adelante",
+          "adelante"
+        ],
+        [
+          "atras",
+          "atras"
+        ]
+      ]
+    },
+    {
+      "type": "field_number",
+      "name": "input_numeric_movimiento",
+      "value": 1,
+      "min": 1,
+      "max": 10
+    },
+    {
+      "type": "input_value",
+      "name": "value_mover"
+    }
+  ],
+  "inputsInline": false,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+}]

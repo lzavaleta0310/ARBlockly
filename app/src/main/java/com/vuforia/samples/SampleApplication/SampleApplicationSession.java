@@ -61,8 +61,7 @@ public class SampleApplicationSession implements UpdateCallbackInterface
     private int mCamera = CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_DEFAULT;
     
 
-    public SampleApplicationSession(SampleApplicationControl sessionControl)
-    {
+    public SampleApplicationSession(SampleApplicationControl sessionControl) {
         mSessionControl = sessionControl;
     }
     
@@ -321,18 +320,14 @@ public class SampleApplicationSession implements UpdateCallbackInterface
     
     
     // Manages the configuration changes
-    public void onConfigurationChanged()
-    {
+    public void onConfigurationChanged() {
         Device.getInstance().setConfigurationChanged();
     }
     
     
     // Methods to be called to handle lifecycle
-    public void onResume()
-    {
-        if (mResumeVuforiaTask == null
-                || mResumeVuforiaTask.getStatus() == ResumeVuforiaTask.Status.FINISHED)
-        {
+    public void onResume() {
+        if (mResumeVuforiaTask == null || mResumeVuforiaTask.getStatus() == ResumeVuforiaTask.Status.FINISHED) {
             // onResume() will sometimes be called twice depending on the screen lock mode
             // This will prevent redundant AsyncTasks from being executed
             resumeAR();

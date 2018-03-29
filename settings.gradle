@@ -1,1 +1,4 @@
-include ':app'
+// Los bloques de Google (blocklylib-core, blocklylib-vertical y deploy.properties) deben ser agregados
+// al directorio raíz del proyecto, tambien definir compile project(':blocklylib-core') compile project(':blocklylib-vertical') el
+// el archivo build.gradle (app) y en esta sección para que pueda reconocer el nucleo
+include ':app', ':blocklylib-core', ':blocklylib-vertical'
