@@ -15,6 +15,7 @@
 
 package com.google.blockly.android;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -124,8 +125,8 @@ public abstract class AbstractBlocklyActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_save) {
-            onSaveWorkspace();
+        /*if (id == R.id.action_save) {
+            //onSaveWorkspace();
             return true;
         } else if (id == R.id.action_load) {
             onLoadWorkspace();
@@ -133,7 +134,8 @@ public abstract class AbstractBlocklyActivity extends AppCompatActivity {
         } else if (id == R.id.action_clear) {
             onClearWorkspace();
             return true;
-        } else if (id == R.id.action_run) {
+        } else */
+            if (id == R.id.action_run) {
             if (getController().getWorkspace().hasBlocks()) {
                 onRunCode();
             } else {
@@ -623,6 +625,8 @@ public abstract class AbstractBlocklyActivity extends AppCompatActivity {
      */
     protected void onRunCode() {
         mBlocklyActivityHelper.requestCodeGeneration(getBlockGeneratorLanguage(), getBlockDefinitionsJsonPaths(), getGeneratorsJsPaths(), getCodeGenerationCallback());
+        Intent i = new Intent("applicationAR.intent.action.Launch");
+        startActivity(i);
     }
 
     /**

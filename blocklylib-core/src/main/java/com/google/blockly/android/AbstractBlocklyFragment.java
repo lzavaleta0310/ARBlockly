@@ -235,7 +235,7 @@ public abstract class AbstractBlocklyFragment extends Fragment {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_save) {
+        /*if (id == R.id.action_save) {
             onSaveWorkspace();
             return true;
         } else if (id == R.id.action_load) {
@@ -244,7 +244,8 @@ public abstract class AbstractBlocklyFragment extends Fragment {
         } else if (id == R.id.action_clear) {
             onClearWorkspace();
             return true;
-        } else if (id == R.id.action_run) {
+        } else*/
+            if (id == R.id.action_run) {
             if (getController().getWorkspace().hasBlocks()) {
                 onRunCode();
             } else {

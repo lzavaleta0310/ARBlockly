@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.vuforia.samples.VuforiaSamples.app.ImageTargets.ImageTargets;
-
 public class SplashScreenActivity extends AppCompatActivity {
 
     private static long SPLASH_MILLIS = 500;
@@ -24,7 +22,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashScreenActivity.this, ImageTargets.class);
+                //Intent intent = new Intent(SplashScreenActivity.this, ImageTargets.class);
+                Intent intent = new Intent(SplashScreenActivity.this, WorkspaceActivity.class);
                 startActivity(intent);
 
             }

@@ -24,6 +24,7 @@ import android.hardware.Camera.CameraInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -55,7 +56,7 @@ import com.vuforia.samples.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuGroup;
 import com.vuforia.samples.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuInterface;
 
 
-public class ImageTargets extends Activity implements SampleApplicationControl {
+public class ImageTargets extends AppCompatActivity implements SampleApplicationControl {
     private static final String LOGTAG = "ImageTargets";
     
     SampleApplicationSession vuforiaAppSession;

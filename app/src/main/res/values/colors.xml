@@ -11,4 +11,9 @@
     <color name="overlay_bottom_bar_separators">#333333</color>
     <color name="overlay_bottom_bar_background">#1E1E1E</color>
 
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="styleDemoTextPrimary">#FF000080</color>
+    <color name="demo_item_bg">#ffaaaaaa</color>
 </resources>

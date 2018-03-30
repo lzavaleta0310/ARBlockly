@@ -23,19 +23,22 @@
         <activity
             android:name=".SplashScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
-            android:launchMode="singleTask"
             android:noHistory="true"
             android:screenOrientation="portrait"
+            android:taskAffinity="com.google.blockly.SimpleActivity"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.vuforia.samples.VuforiaSamples.app.ImageTargets.ImageTargets"></activity>
-
+        <activity android:name=".WorkspaceActivity"/>
+        <activity android:name="com.vuforia.samples.VuforiaSamples.app.ImageTargets.ImageTargets">
+            <intent-filter>
+                <action android:name="applicationAR.intent.action.Launch" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
