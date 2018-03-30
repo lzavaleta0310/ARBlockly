@@ -15,6 +15,7 @@ import java.util.Vector;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -55,64 +56,38 @@ import com.vuforia.samples.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuInterfac
 
 
 // The main activity for the MultiTargets sample. 
-public class MultiTargets extends Activity implements SampleApplicationControl,
-    SampleAppMenuInterface
-{
+public class MultiTargets extends Activity implements SampleApplicationControl, SampleAppMenuInterface {
     private static final String LOGTAG = "MultiTargets";
-    
     SampleApplicationSession vuforiaAppSession;
-    
-    // Our OpenGL view:
+    // Sección de OpenGL
     private SampleApplicationGLView mGlView;
     
-    // Our renderer:
+    // Sección de renderizado
     private MultiTargetRenderer mRenderer;
-    
     private RelativeLayout mUILayout;
-    
     private GestureDetector mGestureDetector;
-    
     private SampleAppMenu mSampleAppMenu;
-    
-    private LoadingDialogHandler loadingDialogHandler = new LoadingDialogHandler(
-        this);
-    
-    // The textures we will use for rendering:
+    private LoadingDialogHandler loadingDialogHandler = new LoadingDialogHandler(this);
+
     private Vector<Texture> mTextures;
-    
     private MultiTarget mit = null;
-    
     private DataSet dataSet = null;
-    
-    // Alert Dialog used to display SDK errors
     private AlertDialog mErrorDialog;
-    
     boolean mIsDroidDevice = false;
     
-    
-    // Called when the activity first starts or the user navigates back to an
-    // activity.
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        Log.d(LOGTAG, "onCreate");
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
         vuforiaAppSession = new SampleApplicationSession(this);
-        
         startLoadingAnimation();
-        
-        vuforiaAppSession
-            .initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        
-        // Load any sample specific textures:
+        vuforiaAppSession.initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        // Carga de las texturas del modelo
         mTextures = new Vector<Texture>();
         loadTextures();
         
         mGestureDetector = new GestureDetector(this, new GestureListener());
-        
-        mIsDroidDevice = android.os.Build.MODEL.toLowerCase().startsWith(
-            "droid");
+        mIsDroidDevice = android.os.Build.MODEL.toLowerCase().startsWith("droid");
         
     }
     

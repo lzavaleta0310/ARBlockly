@@ -16,6 +16,7 @@ package com.google.blockly.android;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -288,6 +289,10 @@ public class BlocklyActivityHelper {
         try {
             serialized.close();
             Log.e("RESULTADO", serialized.toString());
+            Intent i = new Intent("applicationAR.intent.action.Launch");
+            i.putExtra("XML_RESULT", serialized.toString());
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mActivity.getApplication().startActivity(i);
         } catch (IOException e) {
             // Ignore error on close().
         }

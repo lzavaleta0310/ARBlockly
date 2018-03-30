@@ -9,11 +9,71 @@ countries.
 
 package com.vuforia.samples.SampleApplication.utils;
 
+import android.opengl.Matrix;
+
 import java.nio.Buffer;
 
 
-public class CubeObject extends MeshObject
-{
+public class CubeObject extends MeshObject {
+
+    private float pos_X = 1.0f;
+    private float pos_Y = 1.0f;
+    private float pos_Z = 1.1f;
+    private float pos_A = 1.0f;
+    private float v_scale = 0.015f;
+
+    // Método para animar el objeto
+    public void mover(float[] modelViewMatrix){
+        Matrix.translateM(modelViewMatrix, 0, 0.0f, 0.0f, 0.0f);
+        Matrix.scaleM(modelViewMatrix, 0, v_scale, v_scale, v_scale);
+
+        Matrix.translateM(modelViewMatrix, 0, this.pos_X, this.pos_Y,this.pos_Z);
+        Matrix.rotateM(modelViewMatrix, 0, this.pos_A, 0.0f, 0.0f, 1.0f);
+
+    }
+
+    // Accessors
+
+    public float getPos_X() {
+        return pos_X;
+    }
+
+    public void setPos_X(float pos_X) {
+        this.pos_X = pos_X;
+    }
+
+    public float getPos_Y() {
+        return pos_Y;
+    }
+
+    public void setPos_Y(float pos_Y) {
+        this.pos_Y = pos_Y;
+    }
+
+    public float getPos_Z() {
+        return pos_Z;
+    }
+
+    public void setPos_Z(float pos_Z) {
+        this.pos_Z = pos_Z;
+    }
+
+    public float getPos_A() {
+        return pos_A;
+    }
+
+    public void setPos_A(float pos_A) {
+        this.pos_A = pos_A;
+    }
+
+    public float getV_scale() {
+        return v_scale;
+    }
+
+    public void setV_scale(float v_scale) {
+        this.v_scale = v_scale;
+    }
+
     // Data for drawing the 3D plane as overlay
     private static final double cubeVertices[]  = { 
             -1.00f, -1.00f, 1.00f, // front
@@ -90,8 +150,7 @@ public class CubeObject extends MeshObject
     private Buffer mIndBuff;
     
     
-    public CubeObject()
-    {
+    public CubeObject() {
         mVertBuff = fillBuffer(cubeVertices);
         mTexCoordBuff = fillBuffer(cubeTexcoords);
         mNormBuff = fillBuffer(cubeNormals);
@@ -100,11 +159,9 @@ public class CubeObject extends MeshObject
     
     
     @Override
-    public Buffer getBuffer(BUFFER_TYPE bufferType)
-    {
+    public Buffer getBuffer(BUFFER_TYPE bufferType) {
         Buffer result = null;
-        switch (bufferType)
-        {
+        switch (bufferType) {
             case BUFFER_TYPE_VERTEX:
                 result = mVertBuff;
                 break;

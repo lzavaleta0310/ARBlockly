@@ -16,6 +16,7 @@ import java.util.Vector;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -51,6 +52,9 @@ import com.vuforia.samples.SampleApplication.utils.LoadingDialogHandler;
 import com.vuforia.samples.SampleApplication.utils.SampleApplicationGLView;
 import com.vuforia.samples.SampleApplication.utils.Texture;
 import mx.com.lania.arblockly.R;
+import mx.com.lania.arblockly.utils.ARBCodeParse;
+import mx.com.lania.arblockly.utils.ARBModel;
+
 import com.vuforia.samples.VuforiaSamples.ui.SampleAppMenu.SampleAppMenu;
 import com.vuforia.samples.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuGroup;
 import com.vuforia.samples.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuInterface;
@@ -67,67 +71,66 @@ public class ImageTargets extends AppCompatActivity implements SampleApplication
     private int mDatasetsNumber = 0;
     private ArrayList<String> mDatasetStrings = new ArrayList<String>();
     
-    // Our OpenGL view:
+    // Objeto OpenGL
     private SampleApplicationGLView mGlView;
     
-    // Our renderer:
+    // Renderizados
     private ImageTargetRenderer mRenderer;
-    
+
     private GestureDetector mGestureDetector;
-    
-    // The textures we will use for rendering:
     private Vector<Texture> mTextures;
     
     private boolean mSwitchDatasetAsap = false;
     private boolean mFlash = false;
     private boolean mContAutofocus = true;
     private boolean mExtendedTracking = false;
-
     private View mFocusOptionView;
     private View mFlashOptionView;
-    
     private RelativeLayout mUILayout;
-
     LoadingDialogHandler loadingDialogHandler = new LoadingDialogHandler(this);
-    
-    // Alert Dialog used to display SDK errors
     private AlertDialog mErrorDialog;
-    
     boolean mIsDroidDevice = false;
-    
-    
-    // Called when the activity first starts or the user navigates back to an
-    // activity.
+
+    // Elementos para el movimiento
+    private ArrayList<ARBModel> arregloTarget1;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        Log.d(LOGTAG, "onCreate");
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
+        /**
+         * Sección destinada a la generación del código que será ejecutado por el modelo
+         */
+        // Obtener los datos generados por los bloques
+        Intent i = getIntent();
+        String xml_result = i.getStringExtra("XML_RESULT");
+
+        Log.e(LOGTAG, xml_result);
+
+        ARBCodeParse parse =  new ARBCodeParse();
+        parse.parse(xml_result);
+
+        this.arregloTarget1 = parse.getArregloTarget1();
+        Log.e(LOGTAG, this.arregloTarget1.size() + " es el tamaño II");
+
+        // Inicio de la sesión de Vuforia
         vuforiaAppSession = new SampleApplicationSession(this);
-        
+
+        // Carga de los datos
         startLoadingAnimation();
-        mDatasetStrings.add("StonesAndChips.xml");
-        mDatasetStrings.add("Tarmac.xml");
-        
-        vuforiaAppSession
-            .initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        
-        mGestureDetector = new GestureDetector(this, new GestureListener());
-        
-        // Load any sample specific textures:
+        mDatasetStrings.add("ARBlockly_t1.xml");
+        // Inicio del ciclo de vida
+        vuforiaAppSession.initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        // Cargar las texturas
         mTextures = new Vector<Texture>();
         loadTextures();
-        
-        mIsDroidDevice = android.os.Build.MODEL.toLowerCase().startsWith(
-            "droid");
+
+        mIsDroidDevice = android.os.Build.MODEL.toLowerCase().startsWith("droid");
         
     }
     
     // Process Single Tap event to trigger autofocus
-    private class GestureListener extends
-        GestureDetector.SimpleOnGestureListener
-    {
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
         // Used to set autofocus one second after a manual focus is triggered
         private final Handler autofocusHandler = new Handler();
         
@@ -140,12 +143,9 @@ public class ImageTargets extends AppCompatActivity implements SampleApplication
         
         
         @Override
-        public boolean onSingleTapUp(MotionEvent e)
-        {
-            boolean result = CameraDevice.getInstance().setFocusMode(
-                    CameraDevice.FOCUS_MODE.FOCUS_MODE_TRIGGERAUTO);
-            if (!result)
-                Log.e("SingleTapUp", "Unable to trigger focus");
+        public boolean onSingleTapUp(MotionEvent e) {
+            boolean result = CameraDevice.getInstance().setFocusMode(CameraDevice.FOCUS_MODE.FOCUS_MODE_TRIGGERAUTO);
+            if (!result) Log.e("SingleTapUp", "Unable to trigger focus");
 
             // Generates a Handler to trigger continuous auto-focus
             // after 1 second
@@ -168,19 +168,17 @@ public class ImageTargets extends AppCompatActivity implements SampleApplication
         }
     }
     
-    
-    // We want to load specific textures from the APK, which we will later use
-    // for rendering.
-    
     private void loadTextures() {
-        mTextures.add(Texture.loadTextureFromApk("TextureTeapotBrass.png",
+        /*mTextures.add(Texture.loadTextureFromApk("TextureTeapotBrass.png",
             getAssets()));
         mTextures.add(Texture.loadTextureFromApk("TextureTeapotBlue.png",
             getAssets()));
         mTextures.add(Texture.loadTextureFromApk("TextureTeapotRed.png",
             getAssets()));
         mTextures.add(Texture.loadTextureFromApk("ImageTargets/Buildings.jpeg",
-            getAssets()));
+            getAssets()));*/
+        mTextures.add(Texture.loadTextureFromApk("TextureG.png", getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("TextureP.png", getAssets()));
     }
     
     
@@ -571,7 +569,8 @@ public class ImageTargets extends AppCompatActivity implements SampleApplication
     
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return mGestureDetector.onTouchEvent(event);
+        //return mGestureDetector.onTouchEvent(event);
+        return false;
     }
     
     
@@ -592,5 +591,16 @@ public class ImageTargets extends AppCompatActivity implements SampleApplication
     private void showToast(String text)
     {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
+
+    // Accessors
+
+
+    public ArrayList<ARBModel> getArregloTarget1() {
+        return arregloTarget1;
+    }
+
+    public void setArregloTarget1(ArrayList<ARBModel> arregloTarget1) {
+        this.arregloTarget1 = arregloTarget1;
     }
 }

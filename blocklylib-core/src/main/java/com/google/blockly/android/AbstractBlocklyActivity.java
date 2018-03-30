@@ -625,8 +625,10 @@ public abstract class AbstractBlocklyActivity extends AppCompatActivity {
      */
     protected void onRunCode() {
         mBlocklyActivityHelper.requestCodeGeneration(getBlockGeneratorLanguage(), getBlockDefinitionsJsonPaths(), getGeneratorsJsPaths(), getCodeGenerationCallback());
-        Intent i = new Intent("applicationAR.intent.action.Launch");
-        startActivity(i);
+        /**
+         * Se cambia el lugar de la ejecución de la actividad para poder obtener el código de los bloques
+         * Ahora la ejecución se realiza en BlocklyActivityHelper
+         */
     }
 
     /**
