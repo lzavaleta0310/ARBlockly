@@ -17,8 +17,7 @@ import java.nio.ByteOrder;
 public abstract class MeshObject
 {
     
-    public enum BUFFER_TYPE
-    {
+    public enum BUFFER_TYPE {
         BUFFER_TYPE_VERTEX, BUFFER_TYPE_TEXTURE_COORD, BUFFER_TYPE_NORMALS, BUFFER_TYPE_INDICES
     }
     

@@ -10,19 +10,18 @@ countries.
 
 package com.vuforia.samples.VuforiaSamples.app.ImageTargets;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.hardware.Camera;
-import android.hardware.Camera.CameraInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -31,9 +30,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.CheckBox;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.vuforia.CameraDevice;
@@ -54,10 +51,7 @@ import com.vuforia.samples.SampleApplication.utils.Texture;
 import mx.com.lania.arblockly.R;
 import mx.com.lania.arblockly.utils.ARBCodeParse;
 import mx.com.lania.arblockly.utils.ARBModel;
-
-import com.vuforia.samples.VuforiaSamples.ui.SampleAppMenu.SampleAppMenu;
-import com.vuforia.samples.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuGroup;
-import com.vuforia.samples.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuInterface;
+import mx.com.lania.arblockly.utils.CSVFile;
 
 
 public class ImageTargets extends AppCompatActivity implements SampleApplicationControl {
@@ -94,6 +88,10 @@ public class ImageTargets extends AppCompatActivity implements SampleApplication
     // Elementos para el movimiento
     private ArrayList<ARBModel> arregloTarget1;
 
+    private double[] cubeVertices;
+    private double[] cubeTexcoords;
+    private double[] cubeNormals;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,7 +124,40 @@ public class ImageTargets extends AppCompatActivity implements SampleApplication
         loadTextures();
 
         mIsDroidDevice = android.os.Build.MODEL.toLowerCase().startsWith("droid");
-        
+        List cubeVertices = readFileCSVArray("androidVerts.csv");
+        List cubeTexcoords = readFileCSVArray("androidTexCoords.csv");
+        List cubeNormals = readFileCSVArray("androidNormals.csv");
+
+        this.cubeVertices = getArregloTo(cubeVertices);
+        this.cubeNormals = getArregloTo(cubeNormals);
+        this.cubeTexcoords = getArregloTo(cubeTexcoords);
+    }
+
+    private List readFileCSVArray(String nombreArchivo){
+        InputStream inputStream = null;
+        List arrayList = new ArrayList();
+        try {
+            inputStream = getResources().getAssets().open(nombreArchivo);
+            CSVFile csvFile = new CSVFile(inputStream);
+            arrayList = csvFile.read();
+            Log.e(LOGTAG, "Tamaño del arreglo :: " + arrayList.size());
+        } catch (IOException e) {
+            Log.e(LOGTAG, "Error en la lectura del archivo CSV _:_ " + e.toString());
+        }
+
+        return arrayList;
+    }
+
+    private double[] getArregloTo(List arreglo){
+        double[] elementArr = new double[arreglo.size()];
+
+        for(int i = 0; i < arreglo.size(); i++){
+            String[] e = (String[]) arreglo.get(i);
+            if(e.length > 0)
+                elementArr[i] = Double.parseDouble(e[0]);
+        }
+
+        return elementArr;
     }
     
     // Process Single Tap event to trigger autofocus
@@ -177,8 +208,14 @@ public class ImageTargets extends AppCompatActivity implements SampleApplication
             getAssets()));
         mTextures.add(Texture.loadTextureFromApk("ImageTargets/Buildings.jpeg",
             getAssets()));*/
-        mTextures.add(Texture.loadTextureFromApk("TextureG.png", getAssets()));
+        //mTextures.add(Texture.loadTextureFromApk("ship.png", getAssets()));
+        //mTextures.add(Texture.loadTextureFromApk("ship.png", getAssets()));
+
+        // Cubo
         mTextures.add(Texture.loadTextureFromApk("TextureP.png", getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("TextureG.png", getAssets()));
+        // Nave
+        mTextures.add(Texture.loadTextureFromApk("android.png", getAssets()));
     }
     
     
@@ -602,5 +639,29 @@ public class ImageTargets extends AppCompatActivity implements SampleApplication
 
     public void setArregloTarget1(ArrayList<ARBModel> arregloTarget1) {
         this.arregloTarget1 = arregloTarget1;
+    }
+
+    public double[] getCubeVertices() {
+        return cubeVertices;
+    }
+
+    public void setCubeVertices(double[] cubeVertices) {
+        this.cubeVertices = cubeVertices;
+    }
+
+    public double[] getCubeTexcoords() {
+        return cubeTexcoords;
+    }
+
+    public void setCubeTexcoords(double[] cubeTexcoords) {
+        this.cubeTexcoords = cubeTexcoords;
+    }
+
+    public double[] getCubeNormals() {
+        return cubeNormals;
+    }
+
+    public void setCubeNormals(double[] cubeNormals) {
+        this.cubeNormals = cubeNormals;
     }
 }

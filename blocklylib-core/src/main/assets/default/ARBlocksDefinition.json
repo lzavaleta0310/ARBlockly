@@ -1,121 +1,88 @@
 [{
-  "type": "arblock_mover",
-  "message0": "mover %1 %2 %3",
+  "type": "arblock_target",
+  "message0": "Al ver %1 %2",
   "args0": [
     {
       "type": "field_dropdown",
-      "name": "drop_mover",
+      "name": "dropdown_target",
       "options": [
         [
-          "adelante",
-          "adelante"
+          "target_1",
+          "target_1"
         ],
         [
-          "atras",
-          "atras"
+          "target_2",
+          "target_2"
         ]
       ]
     },
     {
-      "type": "field_number",
-      "name": "input_numeric_movimiento",
-      "value": 1,
-      "min": 1,
-      "max": 50
-    },
-    {
-      "type": "input_value",
-      "name": "value_mover"
+      "type": "input_statement",
+      "name": "input_target",
+      "align": "CENTRE"
     }
   ],
-  "inputsInline": false,
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-}, {
-  "type": "block_imagen1",
-  "message0": "%1 %2",
-  "args0": [
-    {
-      "type": "field_image",
-      "src": "http://bestanimations.com/Animals/Reptiles/turtles/cute-turtle-animated-gif-14.gif",
-      "width": 50,
-      "height": 50,
-      "alt": "*"
-    },
-    {
-      "type": "input_value",
-      "name": "tortuga"
-    }
-  ],
-  "output": null,
-  "colour": 230,
-  "tooltip": "",
-  "helpUrl": ""
-}, {
-  "type": "arblock_mover",
-  "message0": "Mover %1 %2 pasos",
-  "args0": [
-    {
-      "type": "field_dropdown",
-      "name": "drop_mover",
-      "options": [
-        [
-          "adelante",
-          "adelante"
-        ],
-        [
-          "atras",
-          "atras"
-        ]
-      ]
-    },
-    {
-      "type": "field_number",
-      "name": "input_numeric_movimiento",
-      "value": 1,
-      "min": 1,
-      "max": 10
-    }
-  ],
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": 230,
+  "colour": 180,
   "tooltip": "",
   "helpUrl": ""
 },
   {
-    "type": "arblock_target",
-    "message0": "Al ver %1 %2",
+    "type": "arblock_movimiento",
+    "message0": "Mover %1 %2 pasos",
     "args0": [
       {
         "type": "field_dropdown",
-        "name": "dropdown_target",
+        "name": "drop_mover",
         "options": [
           [
-            "target_1",
-            "target_1"
+            "adelante",
+            "adelante"
           ],
           [
-            "target_2",
-            "target_2"
+            "atras",
+            "atras"
           ]
         ]
       },
       {
-        "type": "input_statement",
-        "name": "input_target",
-        "align": "CENTRE"
+        "type": "field_dropdown",
+        "name": "drop_movimiento_cantidad",
+        "options": [
+          [
+            "1",
+            "mov_uno"
+          ],
+          [
+            "2",
+            "mov_dos"
+          ],
+          [
+            "3",
+            "mov_tres"
+          ],
+          [
+            "4",
+            "mov_cuatro"
+          ],
+          [
+            "5",
+            "mov_cinco"
+          ],
+          [
+            "6",
+            "mov_seis"
+          ]
+        ]
       }
     ],
-    "colour": 230,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 300,
     "tooltip": "",
     "helpUrl": ""
   },
   {
-    "type": "arblock_girar",
+    "type": "arblock_giro",
     "message0": "Girar a la %1",
     "args0": [
       {
@@ -135,19 +102,19 @@
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": 230,
+    "colour": 135,
     "tooltip": "",
     "helpUrl": ""
   },
   {
-    "type": "arblock_modelo1",
+    "type": "arblock_modelo_1",
     "message0": "%1 %2 %3",
     "args0": [
       {
         "type": "field_image",
-        "src": "http://bestanimations.com/Animals/Reptiles/turtles/cute-turtle-animated-gif-14.gif",
-        "width": 50,
-        "height": 50,
+        "src": "https://image.flaticon.com/icons/png/128/137/137068.png",
+        "width": 25,
+        "height": 25,
         "alt": "*"
       },
       {
@@ -155,64 +122,104 @@
       },
       {
         "type": "input_statement",
-        "name": "input_acciones"
+        "name": null,
+        "check": "arblock_movimiento"
       }
     ],
     "previousStatement": null,
-    "colour": 230,
+    "colour": 225,
     "tooltip": "",
     "helpUrl": ""
   },
   {
-    "type": "arblock_rotar",
+    "type": "arblock_modelo_2",
+    "message0": "%1 %2 %3",
+    "args0": [
+      {
+        "type": "field_image",
+        "src": "https://findicons.com/files/icons/1035/human_o2/128/alienblaster.png",
+        "width": 25,
+        "height": 25,
+        "alt": "*"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": null,
+        "check": "arblock_movimiento"
+      }
+    ],
+    "previousStatement": null,
+    "colour": 225,
+    "tooltip": "",
+    "helpUrl": ""
+  },
+  {
+    "type": "arblock_rotacion",
     "message0": "Rotar %1",
     "args0": [
       {
-        "type": "field_angle",
-        "name": "input_grados",
-        "angle": 0
+        "type": "field_dropdown",
+        "name": "drop_grados",
+        "options": [
+          [
+            "45 grados",
+            "45_g"
+          ],
+          [
+            "90 grados",
+            "90_g"
+          ],
+          [
+            "135 grados",
+            "135_g"
+          ],
+          [
+            "180 grados",
+            "180_g"
+          ],
+          [
+            "225 grados",
+            "225_g"
+          ],
+          [
+            "270 grados",
+            "270_g"
+          ],
+          [
+            "315 grados",
+            "315_g"
+          ],
+          [
+            "360 grados",
+            "360_g"
+          ]
+        ]
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": 230,
+    "colour": 135,
     "tooltip": "",
     "helpUrl": ""
   },
   {
-    "type": "arblock_agrandar",
-    "message0": "Agrandar %1",
-    "args0": [
-      {
-        "type": "field_number",
-        "name": "input_agrandar",
-        "value": 1,
-        "min": 1,
-        "max": 3
-      }
-    ],
+    "type": "arblock_aumentar",
+    "message0": "Agrandar",
     "previousStatement": null,
     "nextStatement": null,
-    "colour": 230,
+    "colour": 90,
     "tooltip": "",
     "helpUrl": ""
   },
   {
-    "type": "arblock_achicar",
-    "message0": "Achicar %1",
-    "args0": [
-      {
-        "type": "field_number",
-        "name": "input_achicar",
-        "value": 1,
-        "min": 1,
-        "max": 3
-      }
-    ],
+    "type": "arblock_disminuir",
+    "message0": "Achicar",
     "previousStatement": null,
     "nextStatement": null,
-    "colour": 230,
+    "colour": 270,
     "tooltip": "",
     "helpUrl": ""
-  }
-]
+  }]

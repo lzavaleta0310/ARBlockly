@@ -15,12 +15,13 @@
 
 <toolbox>
     <category name="ARBlocks" colour="210">
-        <block type="arblock_mover"></block>
         <block type="arblock_target"></block>
-        <block type="arblock_girar"></block>
-        <block type="arblock_modelo1"></block>
-        <block type="arblock_rotar"></block>
-        <block type="arblock_agrandar"></block>
-        <block type="arblock_achicar"></block>
+        <block type="arblock_modelo_1"></block>
+        <block type="arblock_modelo_2"></block>
+        <block type="arblock_movimiento"></block>
+        <block type="arblock_giro"></block>
+        <block type="arblock_rotacion"></block>
+        <block type="arblock_aumentar"></block>
+        <block type="arblock_disminuir"></block>
     </category>
 </toolbox>

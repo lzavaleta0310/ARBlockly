@@ -160,8 +160,7 @@ public class CylinderTargetRenderer implements GLSurfaceView.Renderer, SampleApp
     private void initRendering()
     {
         // Define clear color
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, Vuforia.requiresAlpha() ? 0.0f
-            : 1.0f);
+        GLES20.glClearColor(0.0f, 0.0f, 0.0f, Vuforia.requiresAlpha() ? 0.0f : 1.0f);
 
         mRenderer = Renderer.getInstance();
 
@@ -250,8 +249,7 @@ public class CylinderTargetRenderer implements GLSurfaceView.Renderer, SampleApp
                 .getPose());
             float[] modelViewMatrix = modelViewMatrix_Vuforia.getData();
             
-            Matrix.scaleM(modelViewMatrix, 0, kCylinderScaleX, kCylinderScaleY,
-                kCylinderScaleZ);
+            Matrix.scaleM(modelViewMatrix, 0, kCylinderScaleX, kCylinderScaleY, kCylinderScaleZ);
             Matrix.multiplyMM(modelViewProjection, 0, projectionMatrix, 0, modelViewMatrix, 0);
             SampleUtils.checkGLError("CylinderTargets prepareCylinder");
             
@@ -291,10 +289,8 @@ public class CylinderTargetRenderer implements GLSurfaceView.Renderer, SampleApp
             animateObject(modelViewMatrix);
             
             // we move away the object from the target
-            Matrix.translateM(modelViewMatrix, 0, 1.0f * kCylinderTopDiameter,
-                0.0f, kObjectScale);
-            Matrix.scaleM(modelViewMatrix, 0, kObjectScale, kObjectScale,
-                kObjectScale);
+            Matrix.translateM(modelViewMatrix, 0, 1.0f * kCylinderTopDiameter, 0.0f, kObjectScale);
+            Matrix.scaleM(modelViewMatrix, 0, kObjectScale, kObjectScale, kObjectScale);
             
             Matrix.multiplyMM(modelViewProjection, 0, projectionMatrix, 0, modelViewMatrix, 0);
             

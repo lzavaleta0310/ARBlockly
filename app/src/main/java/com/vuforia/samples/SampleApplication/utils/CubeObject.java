@@ -20,11 +20,12 @@ public class CubeObject extends MeshObject {
     private float pos_Y = 1.0f;
     private float pos_Z = 1.1f;
     private float pos_A = 1.0f;
-    private float v_scale = 0.015f;
+    private float v_scale = 0.050f;
 
     // Método para animar el objeto
     public void mover(float[] modelViewMatrix){
-        Matrix.translateM(modelViewMatrix, 0, 0.0f, 0.0f, 0.0f);
+        Matrix.translateM(modelViewMatrix, 0, 0.0f, 0.0f, this.v_scale);
+        //Matrix.translateM(modelViewMatrix, 0, this.pos_X, this.pos_Y,this.pos_Z);
         Matrix.scaleM(modelViewMatrix, 0, v_scale, v_scale, v_scale);
 
         Matrix.translateM(modelViewMatrix, 0, this.pos_X, this.pos_Y,this.pos_Z);
@@ -75,32 +76,32 @@ public class CubeObject extends MeshObject {
     }
 
     // Data for drawing the 3D plane as overlay
-    private static final double cubeVertices[]  = { 
+    private static final double cubeVertices[]  = {
             -1.00f, -1.00f, 1.00f, // front
-            1.00f, -1.00f, 1.00f, 
+            1.00f, -1.00f, 1.00f,
             1.00f, 1.00f, 1.00f,
             -1.00f, 1.00f, 1.00f,
-                
+
             -1.00f, -1.00f, -1.00f, // back
             1.00f, -1.00f, -1.00f,
             1.00f, 1.00f, -1.00f,
             -1.00f, 1.00f, -1.00f,
-            
+
             -1.00f, -1.00f, -1.00f, // left
             -1.00f, -1.00f, 1.00f,
             -1.00f, 1.00f, 1.00f,
             -1.00f, 1.00f, -1.00f,
-            
+
             1.00f, -1.00f, -1.00f, // right
             1.00f, -1.00f, 1.00f,
             1.00f, 1.00f, 1.00f,
             1.00f, 1.00f, -1.00f,
-            
+
             -1.00f, 1.00f, 1.00f, // top
             1.00f, 1.00f, 1.00f,
             1.00f, 1.00f, -1.00f,
             -1.00f, 1.00f, -1.00f,
-            
+
             -1.00f, -1.00f, 1.00f, // bottom
             1.00f, -1.00f, 1.00f,
             1.00f, -1.00f, -1.00f,
@@ -121,28 +122,29 @@ public class CubeObject extends MeshObject {
             1, 0, 0, 0, 0, 1, 1, 1 };
     
     
-    private static final double cubeNormals[]   = { 
+    private static final double cubeNormals[]   = {
             0, 0, 1,  0, 0, 1,  0, 0, 1,  0, 0, 1,
-            
+
             0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1,
-            
+
             -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0,
-            
+
             1, 0, 0,  1, 0, 0,  1, 0, 0,  1, 0, 0,
-            
+
             0, 1, 0,  0, 1, 0,  0, 1, 0,  0, 1, 0,
-            
+
             0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0,
             };
-    
-    private static final short  cubeIndices[]   = { 
+
+
+    private static final short  cubeIndices[]   = {
             0, 1, 2, 0, 2, 3, // front
             4, 6, 5, 4, 7, 6, // back
             8, 9, 10, 8, 10, 11, // left
             12, 14, 13, 12, 15, 14, // right
             16, 17, 18, 16, 18, 19, // top
             20, 22, 21, 20, 23, 22  // bottom
-                                                };
+    };
     
     private Buffer mVertBuff;
     private Buffer mTexCoordBuff;
@@ -156,8 +158,8 @@ public class CubeObject extends MeshObject {
         mNormBuff = fillBuffer(cubeNormals);
         mIndBuff = fillBuffer(cubeIndices);
     }
-    
-    
+
+
     @Override
     public Buffer getBuffer(BUFFER_TYPE bufferType) {
         Buffer result = null;

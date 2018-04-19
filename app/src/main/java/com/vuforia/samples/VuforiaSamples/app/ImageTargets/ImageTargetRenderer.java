@@ -39,6 +39,9 @@ import com.vuforia.samples.SampleApplication.utils.SampleUtils;
 import com.vuforia.samples.SampleApplication.utils.Teapot;
 import com.vuforia.samples.SampleApplication.utils.Texture;
 
+import mx.com.lania.arblockly.Model.Cube02;
+import mx.com.lania.arblockly.Model.Rabbit;
+import mx.com.lania.arblockly.Model.Ship;
 import mx.com.lania.arblockly.utils.ARBModel;
 
 public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRendererControl {
@@ -56,9 +59,11 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRen
     private int mvpMatrixHandle;
     private int texSampler2DHandle;
 
+    //private CubeObject mCube;
     private CubeObject mCube;
+    private Ship mShip;
     
-    private float kBuildingScale = 0.012f;
+    //private float kBuildingScale = 0.012f;
     private SampleApplication3DModel mBuildingsModel;
 
     private boolean mIsActive = false;
@@ -69,13 +74,18 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRen
      * Cuando se trata de la tetera el valor para un modelo optimo es de 0.002f
      * En el caso del cubo, un valor adecuado es 0.015f
      */
-    private static final float OBJECT_SCALE_FLOAT = 0.015f;
+    //private static final float OBJECT_SCALE_FLOAT = 0.015f;
     private ArrayList<ARBModel> arregloTarget1;
+    private ArrayList<ARBModel> arregloTarget2;
+
     private int contadorMovimientosTarget1 = 0;
+    private int contadorMovimientosTarget2 = 0;
     
     public ImageTargetRenderer(ImageTargets activity, SampleApplicationSession session) {
         mActivity = activity;
         this.arregloTarget1 = mActivity.getArregloTarget1();
+        this.arregloTarget2 = mActivity.getArregloTarget1();
+
         vuforiaAppSession = session;
         mSampleAppRenderer = new SampleAppRenderer(this, mActivity, Device.MODE.MODE_AR, false, 0.01f , 5f);
     }
@@ -131,6 +141,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRen
 
         if(!mModelIsLoaded) {
             mCube = new CubeObject();
+            mShip = new Ship(mActivity.getCubeVertices(), mActivity.getCubeTexcoords(), mActivity.getCubeNormals());
 
             try {
                 mBuildingsModel = new SampleApplication3DModel();
@@ -164,13 +175,14 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRen
             Matrix44F modelViewMatrix_Vuforia = Tool.convertPose2GLMatrix(result.getPose());
             float[] modelViewMatrix = modelViewMatrix_Vuforia.getData();
 
-            int textureIndex = trackable.getName().equalsIgnoreCase("cc") ? 0 : 1;
+            int textureIndex = trackable.getName().equalsIgnoreCase("cc") ? 2 : 1;
 
             float[] modelViewProjection = new float[16];
 
             if (state.getTrackableResult(tIdx).getTrackable().getName().equalsIgnoreCase("chips")) {
                 if(mCube == null){
                     mCube = new CubeObject();
+
                 }
                 // Se traslada y escala el objeto para poder dibujarlo
 
@@ -183,17 +195,30 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRen
                     mCube.setV_scale(this.arregloTarget1.get(this.contadorMovimientosTarget1).getvScale());
                     mCube.mover(modelViewMatrix);
                 } else {
-                    //Matrix.translateM(modelViewMatrix, 0, 0.0f, 0.0f, 0.015f);
                     Matrix.scaleM(modelViewMatrix, 0, mCube.getV_scale(), mCube.getV_scale(), mCube.getV_scale());
                     Matrix.translateM(modelViewMatrix, 0, mCube.getPos_X(), mCube.getPos_Y(), mCube.getPos_Z());
                 }
 
                 this.contadorMovimientosTarget1 += 1;
-                // this.animateObject(modelViewMatrix);
-            } else if(state.getTrackableResult(tIdx).getTrackable().getName().equalsIgnoreCase("cc")){
-                //Matrix.translateM(modelViewMatrix, 0, 0.0f, 0.0f, 0.0f);
-                //Matrix.scaleM(modelViewMatrix, 0, 0.0015f, 0.0015f, 0.0015f);
-                //teapot.mover(modelViewMatrix);
+            } else if(state.getTrackableResult(tIdx).getTrackable().getName().equalsIgnoreCase("cc")){ //presentar nave
+                if(mShip == null){
+                    mShip = new Ship(mActivity.getCubeVertices(), mActivity.getCubeTexcoords(), mActivity.getCubeNormals());
+                }
+                // Se traslada y escala el objeto para poder dibujarlo
+
+                if(this.contadorMovimientosTarget2 < this.arregloTarget2.size()){
+                    mShip.setPos_Y(this.arregloTarget2.get(this.contadorMovimientosTarget2).getPosY());
+                    mShip.setPos_X(this.arregloTarget2.get(this.contadorMovimientosTarget2).getPosX());
+                    mShip.setPos_Z(this.arregloTarget2.get(this.contadorMovimientosTarget2).getPosZ());
+                    mShip.setPos_A(this.arregloTarget2.get(this.contadorMovimientosTarget2).getPosA());
+                    mShip.setV_scale(this.arregloTarget2.get(this.contadorMovimientosTarget2).getvScale());
+                    mShip.mover(modelViewMatrix);
+                } else {
+                    Matrix.scaleM(modelViewMatrix, 0, mShip.getV_scale(), mShip.getV_scale(), mShip.getV_scale());
+                    Matrix.translateM(modelViewMatrix, 0, mShip.getPos_X(), mShip.getPos_Y(), mShip.getPos_Z());
+                }
+
+                this.contadorMovimientosTarget2 += 1;
             }
 
             Matrix.multiplyMM(modelViewProjection, 0, projectionMatrix, 0, modelViewMatrix, 0);
@@ -232,12 +257,15 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRen
 
             // Se muestra el objeto finalmente
             GLES20.glDrawElements(GLES20.GL_TRIANGLES, mCube.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT, mCube.getIndices());
+            //GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, mCube.NUMVERTS);
+
 
             GLES20.glDisableVertexAttribArray(vertexHandle);
             GLES20.glDisableVertexAttribArray(textureCoordHandle);
-        } else if(tipe == 1) {
-            /*GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT, false, 0, teapot.getVertices());
-            GLES20.glVertexAttribPointer(textureCoordHandle, 2, GLES20.GL_FLOAT, false, 0, teapot.getTexCoords());
+        } else if(tipe == 1) { // Para mostrar la nave
+
+            GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT, false, 0, mShip.getVertices());
+            GLES20.glVertexAttribPointer(textureCoordHandle, 2, GLES20.GL_FLOAT, false, 0, mShip.getTexCoords());
 
             GLES20.glEnableVertexAttribArray(vertexHandle);
             GLES20.glEnableVertexAttribArray(textureCoordHandle);
@@ -249,10 +277,8 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRen
             GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, modelViewProjection, 0);
 
             // Se muestra el objeto finalmente
-            GLES20.glDrawElements(GLES20.GL_TRIANGLES, teapot.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT, teapot.getIndices());
-
-            GLES20.glDisableVertexAttribArray(vertexHandle);
-            GLES20.glDisableVertexAttribArray(textureCoordHandle);*/
+            //GLES20.glDrawElements(GLES20.GL_TRIANGLES, mCube.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT, mCube.getIndices());
+            GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, mShip.NUMVERTS);
         }
 
     }
