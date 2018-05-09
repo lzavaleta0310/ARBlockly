@@ -279,7 +279,7 @@ public class BlocklyActivityHelper {
             mController.getWorkspace().serializeToXml(serialized);
         } catch (BlocklySerializerException e) {
             // Not using a string resource because no non-developer should see this.
-            String msg = "Failed to serialize workspace during code generation.";
+            String msg = "La serialización de los bloques ha fallado.";
             Log.wtf(TAG, msg, e);
             Toast.makeText(mActivity, msg, Toast.LENGTH_LONG).show();
             throw new IllegalStateException(msg, e);

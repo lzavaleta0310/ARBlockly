@@ -87,6 +87,7 @@ public class ImageTargets extends AppCompatActivity implements SampleApplication
 
     // Elementos para el movimiento
     private ArrayList<ARBModel> arregloTarget1;
+    private ArrayList<ARBModel> arregloTarget2;
 
     private double[] cubeVertices;
     private double[] cubeTexcoords;
@@ -103,12 +104,14 @@ public class ImageTargets extends AppCompatActivity implements SampleApplication
         Intent i = getIntent();
         String xml_result = i.getStringExtra("XML_RESULT");
 
-        Log.e(LOGTAG, xml_result);
+        Log.e(LOGTAG, "XML DEL WORKSPACE :: " + xml_result);
 
         ARBCodeParse parse =  new ARBCodeParse();
         parse.parse(xml_result);
 
         this.arregloTarget1 = parse.getArregloTarget1();
+        this.arregloTarget2 = parse.getArregloTarget2();
+
         Log.e(LOGTAG, this.arregloTarget1.size() + " es el tamaño II");
 
         // Inicio de la sesión de Vuforia
@@ -632,6 +635,14 @@ public class ImageTargets extends AppCompatActivity implements SampleApplication
 
     // Accessors
 
+
+    public ArrayList<ARBModel> getArregloTarget2() {
+        return arregloTarget2;
+    }
+
+    public void setArregloTarget2(ArrayList<ARBModel> arregloTarget2) {
+        this.arregloTarget2 = arregloTarget2;
+    }
 
     public ArrayList<ARBModel> getArregloTarget1() {
         return arregloTarget1;

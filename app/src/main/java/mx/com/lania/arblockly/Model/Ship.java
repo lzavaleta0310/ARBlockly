@@ -5,6 +5,10 @@ import android.opengl.Matrix;
 import com.vuforia.samples.SampleApplication.utils.MeshObject;
 
 import java.nio.Buffer;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
+import mx.com.lania.arblockly.utils.ObjLoader;
 
 /**
  * Created by luis on 4/1/18.
@@ -17,6 +21,8 @@ public class Ship extends MeshObject{
     private float pos_A = 1.0f;
     private float v_scale = 0.080f;
     public static final int NUMVERTS = 44748;
+
+    private int numFaces;
 
     // Método para animar el objeto
     public void mover(float[] modelViewMatrix){

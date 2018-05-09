@@ -84,7 +84,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRen
     public ImageTargetRenderer(ImageTargets activity, SampleApplicationSession session) {
         mActivity = activity;
         this.arregloTarget1 = mActivity.getArregloTarget1();
-        this.arregloTarget2 = mActivity.getArregloTarget1();
+        this.arregloTarget2 = mActivity.getArregloTarget2();
 
         vuforiaAppSession = session;
         mSampleAppRenderer = new SampleAppRenderer(this, mActivity, Device.MODE.MODE_AR, false, 0.01f , 5f);
@@ -118,8 +118,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRen
 
         initRendering();
     }
-    
-    
+
     // Function for initializing the renderer.
     private void initRendering() {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, Vuforia.requiresAlpha() ? 0.0f : 1.0f);
@@ -180,56 +179,87 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRen
             float[] modelViewProjection = new float[16];
 
             if (state.getTrackableResult(tIdx).getTrackable().getName().equalsIgnoreCase("chips")) {
-                if(mCube == null){
-                    mCube = new CubeObject();
-
-                }
                 // Se traslada y escala el objeto para poder dibujarlo
-
-
                 if(this.contadorMovimientosTarget1 < this.arregloTarget1.size()){
-                    mCube.setPos_Y(this.arregloTarget1.get(this.contadorMovimientosTarget1).getPosY());
-                    mCube.setPos_X(this.arregloTarget1.get(this.contadorMovimientosTarget1).getPosX());
-                    mCube.setPos_Z(this.arregloTarget1.get(this.contadorMovimientosTarget1).getPosZ());
-                    mCube.setPos_A(this.arregloTarget1.get(this.contadorMovimientosTarget1).getPosA());
-                    mCube.setV_scale(this.arregloTarget1.get(this.contadorMovimientosTarget1).getvScale());
-                    mCube.mover(modelViewMatrix);
+                    switch (this.arregloTarget1.get(this.contadorMovimientosTarget1).getTipoModelo()){
+                        case 1:
+                            mCube.setPos_Y(this.arregloTarget1.get(this.contadorMovimientosTarget1).getPosY());
+                            mCube.setPos_X(this.arregloTarget1.get(this.contadorMovimientosTarget1).getPosX());
+                            mCube.setPos_Z(this.arregloTarget1.get(this.contadorMovimientosTarget1).getPosZ());
+                            mCube.setPos_A(this.arregloTarget1.get(this.contadorMovimientosTarget1).getPosA());
+                            mCube.setV_scale(this.arregloTarget1.get(this.contadorMovimientosTarget1).getvScale());
+                            mCube.mover(modelViewMatrix);
+                            break;
+                        case 2:
+                            mShip.setPos_Y(this.arregloTarget1.get(this.contadorMovimientosTarget1).getPosY());
+                            mShip.setPos_X(this.arregloTarget1.get(this.contadorMovimientosTarget1).getPosX());
+                            mShip.setPos_Z(this.arregloTarget1.get(this.contadorMovimientosTarget1).getPosZ());
+                            mShip.setPos_A(this.arregloTarget1.get(this.contadorMovimientosTarget1).getPosA());
+                            mShip.setV_scale(this.arregloTarget1.get(this.contadorMovimientosTarget1).getvScale());
+                            mShip.mover(modelViewMatrix);
+                            break;
+                    }
                 } else {
-                    Matrix.scaleM(modelViewMatrix, 0, mCube.getV_scale(), mCube.getV_scale(), mCube.getV_scale());
-                    Matrix.translateM(modelViewMatrix, 0, mCube.getPos_X(), mCube.getPos_Y(), mCube.getPos_Z());
-                }
+                    switch (this.arregloTarget1.get(0).getTipoModelo()){
+                        case 1:
+                            Matrix.scaleM(modelViewMatrix, 0, mCube.getV_scale(), mCube.getV_scale(), mCube.getV_scale());
+                            Matrix.translateM(modelViewMatrix, 0, mCube.getPos_X(), mCube.getPos_Y(), mCube.getPos_Z());
+                            break;
+                        case 2:
+                            Matrix.scaleM(modelViewMatrix, 0, mShip.getV_scale(), mShip.getV_scale(), mShip.getV_scale());
+                            Matrix.translateM(modelViewMatrix, 0, mShip.getPos_X(), mShip.getPos_Y(), mShip.getPos_Z());
+                            break;
+                    }
 
-                this.contadorMovimientosTarget1 += 1;
-            } else if(state.getTrackableResult(tIdx).getTrackable().getName().equalsIgnoreCase("cc")){ //presentar nave
-                if(mShip == null){
-                    mShip = new Ship(mActivity.getCubeVertices(), mActivity.getCubeTexcoords(), mActivity.getCubeNormals());
                 }
-                // Se traslada y escala el objeto para poder dibujarlo
+                this.contadorMovimientosTarget1 += 1;
+
+            } else if(state.getTrackableResult(tIdx).getTrackable().getName().equalsIgnoreCase("cc")){
 
                 if(this.contadorMovimientosTarget2 < this.arregloTarget2.size()){
-                    mShip.setPos_Y(this.arregloTarget2.get(this.contadorMovimientosTarget2).getPosY());
-                    mShip.setPos_X(this.arregloTarget2.get(this.contadorMovimientosTarget2).getPosX());
-                    mShip.setPos_Z(this.arregloTarget2.get(this.contadorMovimientosTarget2).getPosZ());
-                    mShip.setPos_A(this.arregloTarget2.get(this.contadorMovimientosTarget2).getPosA());
-                    mShip.setV_scale(this.arregloTarget2.get(this.contadorMovimientosTarget2).getvScale());
-                    mShip.mover(modelViewMatrix);
+                    switch (this.arregloTarget2.get(this.contadorMovimientosTarget2).getTipoModelo()){
+                        case 1:
+                            mCube.setPos_Y(this.arregloTarget2.get(this.contadorMovimientosTarget2).getPosY());
+                            mCube.setPos_X(this.arregloTarget2.get(this.contadorMovimientosTarget2).getPosX());
+                            mCube.setPos_Z(this.arregloTarget2.get(this.contadorMovimientosTarget2).getPosZ());
+                            mCube.setPos_A(this.arregloTarget2.get(this.contadorMovimientosTarget2).getPosA());
+                            mCube.setV_scale(this.arregloTarget2.get(this.contadorMovimientosTarget2).getvScale());
+                            mCube.mover(modelViewMatrix);
+                            break;
+                        case 2:
+                            mShip.setPos_Y(this.arregloTarget2.get(this.contadorMovimientosTarget2).getPosY());
+                            mShip.setPos_X(this.arregloTarget2.get(this.contadorMovimientosTarget2).getPosX());
+                            mShip.setPos_Z(this.arregloTarget2.get(this.contadorMovimientosTarget2).getPosZ());
+                            mShip.setPos_A(this.arregloTarget2.get(this.contadorMovimientosTarget2).getPosA());
+                            mShip.setV_scale(this.arregloTarget2.get(this.contadorMovimientosTarget2).getvScale());
+                            mShip.mover(modelViewMatrix);
+                            break;
+                    }
                 } else {
-                    Matrix.scaleM(modelViewMatrix, 0, mShip.getV_scale(), mShip.getV_scale(), mShip.getV_scale());
-                    Matrix.translateM(modelViewMatrix, 0, mShip.getPos_X(), mShip.getPos_Y(), mShip.getPos_Z());
+                    switch (this.arregloTarget2.get(0).getTipoModelo()){
+                        case 1:
+                            Matrix.scaleM(modelViewMatrix, 0, mCube.getV_scale(), mCube.getV_scale(), mCube.getV_scale());
+                            Matrix.translateM(modelViewMatrix, 0, mCube.getPos_X(), mCube.getPos_Y(), mCube.getPos_Z());
+                            break;
+                        case 2:
+                            Matrix.scaleM(modelViewMatrix, 0, mShip.getV_scale(), mShip.getV_scale(), mShip.getV_scale());
+                            Matrix.translateM(modelViewMatrix, 0, mShip.getPos_X(), mShip.getPos_Y(), mShip.getPos_Z());
+                            break;
+                    }
                 }
-
                 this.contadorMovimientosTarget2 += 1;
             }
-
+            /**
+             *
+             */
             Matrix.multiplyMM(modelViewProjection, 0, projectionMatrix, 0, modelViewMatrix, 0);
-
             GLES20.glUseProgram(shaderProgramID);
 
             if (!mActivity.isExtendedTrackingActive()) {
                 if (state.getTrackableResult(tIdx).getTrackable().getName().equalsIgnoreCase("chips")) {
-                    addTextures(textureIndex, modelViewProjection, 0);
+                    addTextures(textureIndex, modelViewProjection, this.arregloTarget1.get(0).getTipoModelo(), this.arregloTarget1.get(0).getTipoModelo());
                 } else {
-                    addTextures(textureIndex, modelViewProjection, 1);
+                    addTextures(textureIndex, modelViewProjection, this.arregloTarget2.get(0).getTipoModelo(), this.arregloTarget2.get(0).getTipoModelo());
                 }
             } else {
                 removeTextures(modelViewProjection);
@@ -241,46 +271,59 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRen
     }
 
 
-    public void addTextures(int textureIndex, float[] modelViewProjection, int tipe){
-        if (tipe == 0){
-            GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT, false, 0, mCube.getVertices());
-            GLES20.glVertexAttribPointer(textureCoordHandle, 2, GLES20.GL_FLOAT, false, 0, mCube.getTexCoords());
-
-            GLES20.glEnableVertexAttribArray(vertexHandle);
-            GLES20.glEnableVertexAttribArray(textureCoordHandle);
-
-            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextures.get(textureIndex).mTextureID[0]);
-            GLES20.glUniform1i(texSampler2DHandle, 0);
-
-            GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, modelViewProjection, 0);
-
-            // Se muestra el objeto finalmente
-            GLES20.glDrawElements(GLES20.GL_TRIANGLES, mCube.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT, mCube.getIndices());
-            //GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, mCube.NUMVERTS);
-
-
-            GLES20.glDisableVertexAttribArray(vertexHandle);
-            GLES20.glDisableVertexAttribArray(textureCoordHandle);
-        } else if(tipe == 1) { // Para mostrar la nave
-
-            GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT, false, 0, mShip.getVertices());
-            GLES20.glVertexAttribPointer(textureCoordHandle, 2, GLES20.GL_FLOAT, false, 0, mShip.getTexCoords());
-
-            GLES20.glEnableVertexAttribArray(vertexHandle);
-            GLES20.glEnableVertexAttribArray(textureCoordHandle);
-
-            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextures.get(textureIndex).mTextureID[0]);
-            GLES20.glUniform1i(texSampler2DHandle, 0);
-
-            GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, modelViewProjection, 0);
-
-            // Se muestra el objeto finalmente
-            //GLES20.glDrawElements(GLES20.GL_TRIANGLES, mCube.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT, mCube.getIndices());
-            GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, mShip.NUMVERTS);
+    public void addTextures(int textureIndex, float[] modelViewProjection, int tipe, int model){
+        switch (model){
+            case 1:
+                if (tipe == 0){
+                    GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT, false, 0, mShip.getVertices());
+                    GLES20.glVertexAttribPointer(textureCoordHandle, 2, GLES20.GL_FLOAT, false, 0, mShip.getTexCoords());
+                    GLES20.glEnableVertexAttribArray(vertexHandle);
+                    GLES20.glEnableVertexAttribArray(textureCoordHandle);
+                    GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+                    GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextures.get(textureIndex).mTextureID[0]);
+                    GLES20.glUniform1i(texSampler2DHandle, 0);
+                    GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, modelViewProjection, 0);
+                    GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, mShip.NUMVERTS);
+                } else if (tipe == 1){
+                    GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT, false, 0, mCube.getVertices());
+                    GLES20.glVertexAttribPointer(textureCoordHandle, 2, GLES20.GL_FLOAT, false, 0, mCube.getTexCoords());
+                    GLES20.glEnableVertexAttribArray(vertexHandle);
+                    GLES20.glEnableVertexAttribArray(textureCoordHandle);
+                    GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+                    GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextures.get(textureIndex).mTextureID[0]);
+                    GLES20.glUniform1i(texSampler2DHandle, 0);
+                    GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, modelViewProjection, 0);
+                    GLES20.glDrawElements(GLES20.GL_TRIANGLES, mCube.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT, mCube.getIndices());
+                    GLES20.glDisableVertexAttribArray(vertexHandle);
+                    GLES20.glDisableVertexAttribArray(textureCoordHandle);
+                }
+                break;
+            case 2:
+                if (tipe == 0){
+                    GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT, false, 0, mShip.getVertices());
+                    GLES20.glVertexAttribPointer(textureCoordHandle, 2, GLES20.GL_FLOAT, false, 0, mShip.getTexCoords());
+                    GLES20.glEnableVertexAttribArray(vertexHandle);
+                    GLES20.glEnableVertexAttribArray(textureCoordHandle);
+                    GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+                    GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextures.get(textureIndex).mTextureID[0]);
+                    GLES20.glUniform1i(texSampler2DHandle, 0);
+                    GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, modelViewProjection, 0);
+                    GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, mShip.NUMVERTS);
+                } else if (tipe == 1){
+                    GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT, false, 0, mCube.getVertices());
+                    GLES20.glVertexAttribPointer(textureCoordHandle, 2, GLES20.GL_FLOAT, false, 0, mCube.getTexCoords());
+                    GLES20.glEnableVertexAttribArray(vertexHandle);
+                    GLES20.glEnableVertexAttribArray(textureCoordHandle);
+                    GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+                    GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextures.get(textureIndex).mTextureID[0]);
+                    GLES20.glUniform1i(texSampler2DHandle, 0);
+                    GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, modelViewProjection, 0);
+                    GLES20.glDrawElements(GLES20.GL_TRIANGLES, mCube.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT, mCube.getIndices());
+                    GLES20.glDisableVertexAttribArray(vertexHandle);
+                    GLES20.glDisableVertexAttribArray(textureCoordHandle);
+                }
+                break;
         }
-
     }
 
     public void removeTextures(float[] modelViewProjection){
@@ -302,22 +345,4 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRen
         mTextures = textures;
         
     }
-
-    /*private double prevTime;
-    private float rotateBallAngle;
-
-    private void animateObject(float[] modelViewMatrix) {
-        Log.e(LOGTAG, rotateBallAngle + " : valor");
-
-        double time = System.currentTimeMillis();
-        float dt = (float) (time - prevTime) / 1000;
-
-        rotateBallAngle += dt * 180.0f / 3.1415f;
-        rotateBallAngle %= 360;
-
-        Matrix.rotateM(modelViewMatrix, 0, rotateBallAngle, 0.0f, 0.0f, 1.0f);
-
-        prevTime = time;
-    }*/
-    
 }

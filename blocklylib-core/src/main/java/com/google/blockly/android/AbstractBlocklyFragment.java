@@ -246,12 +246,12 @@ public abstract class AbstractBlocklyFragment extends Fragment {
             return true;
         } else*/
             if (id == R.id.action_run) {
-            if (getController().getWorkspace().hasBlocks()) {
-                onRunCode();
-            } else {
-                Log.i(TAG, "No blocks in workspace. Skipping run request.");
-            }
-            return true;
+                if (getController().getWorkspace().hasBlocks()) {
+                    onRunCode();
+                } else {
+                    Log.i(TAG, "No blocks in workspace. Skipping run request.");
+                }
+                return true;
         } else {
             return false;
         }
