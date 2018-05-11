@@ -147,10 +147,10 @@ public class CylinderTargets extends Activity implements
     // for rendering.
     private void loadTextures()
     {
-        mTextures.add(Texture.loadTextureFromApk(
-            "CylinderTargets/TextureWireframeNoBorder.png", getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("CylinderTargets/sphere.png",
-            getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("CylinderTargets/TextureWireframeNoBorder.png", getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("CylinderTargets/sphere.png", getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("CylinderTargets/0Kc7k.png", getAssets()));
+        //mTextures.add(Texture.loadTextureFromApk("CylinderTargets/Buildings.jpeg", getAssets()));
     }
     
     

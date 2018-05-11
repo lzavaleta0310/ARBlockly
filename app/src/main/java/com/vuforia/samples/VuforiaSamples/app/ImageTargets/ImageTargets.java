@@ -215,7 +215,7 @@ public class ImageTargets extends AppCompatActivity implements SampleApplication
         mTextures.add(Texture.loadTextureFromApk("TextureP.png", getAssets()));
         mTextures.add(Texture.loadTextureFromApk("TextureG.png", getAssets()));
         // Nave
-        mTextures.add(Texture.loadTextureFromApk("android.png", getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("0Kc7k.png", getAssets()));
     }
     
     

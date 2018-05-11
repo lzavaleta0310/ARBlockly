@@ -20,8 +20,7 @@ import java.nio.ByteOrder;
 import android.content.res.AssetManager;
 
 
-public class SampleApplication3DModel extends MeshObject
-{
+public class SampleApplication3DModel extends MeshObject {
     
     private ByteBuffer verts;
     private ByteBuffer textCoords;
@@ -29,16 +28,11 @@ public class SampleApplication3DModel extends MeshObject
     int numVerts = 0;
     
     
-    public void loadModel(AssetManager assetManager, String filename)
-        throws IOException
-    {
+    public void loadModel(AssetManager assetManager, String filename) throws IOException {
         InputStream is = null;
-        try
-        {
+        try {
             is = assetManager.open(filename);
-            BufferedReader reader = new BufferedReader(
-                new InputStreamReader(is));
-            
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
             String line = reader.readLine();
             
             int floatsToRead = Integer.parseInt(line);
@@ -46,8 +40,7 @@ public class SampleApplication3DModel extends MeshObject
             
             verts = ByteBuffer.allocateDirect(floatsToRead * 4);
             verts.order(ByteOrder.nativeOrder());
-            for (int i = 0; i < floatsToRead; i++)
-            {
+            for (int i = 0; i < floatsToRead; i++) {
                 verts.putFloat(Float.parseFloat(reader.readLine()));
             }
             verts.rewind();
@@ -57,8 +50,7 @@ public class SampleApplication3DModel extends MeshObject
             
             norms = ByteBuffer.allocateDirect(floatsToRead * 4);
             norms.order(ByteOrder.nativeOrder());
-            for (int i = 0; i < floatsToRead; i++)
-            {
+            for (int i = 0; i < floatsToRead; i++) {
                 norms.putFloat(Float.parseFloat(reader.readLine()));
             }
             norms.rewind();
@@ -68,14 +60,12 @@ public class SampleApplication3DModel extends MeshObject
             
             textCoords = ByteBuffer.allocateDirect(floatsToRead * 4);
             textCoords.order(ByteOrder.nativeOrder());
-            for (int i = 0; i < floatsToRead; i++)
-            {
+            for (int i = 0; i < floatsToRead; i++) {
                 textCoords.putFloat(Float.parseFloat(reader.readLine()));
             }
             textCoords.rewind();
             
-        } finally
-        {
+        } finally {
             if (is != null)
                 is.close();
         }

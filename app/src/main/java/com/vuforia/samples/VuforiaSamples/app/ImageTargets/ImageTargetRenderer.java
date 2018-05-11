@@ -251,6 +251,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer, SampleAppRen
 
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextures.get(textureIndex).mTextureID[0]);
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextures.get(0).mTextureID[0]);
             GLES20.glUniform1i(texSampler2DHandle, 0);
 
             GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, modelViewProjection, 0);

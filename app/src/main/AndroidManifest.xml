@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".WorkspaceActivity"/>
-        <activity android:name="com.vuforia.samples.VuforiaSamples.app.ImageTargets.ImageTargets">
+        <activity android:name="com.vuforia.samples.VuforiaSamples.app.CylinderTargets.CylinderTargets">
             <intent-filter>
                 <action android:name="applicationAR.intent.action.Launch" />
                 <category android:name="android.intent.category.DEFAULT" />
