@@ -212,10 +212,13 @@ public class ImageTargets extends AppCompatActivity implements SampleApplication
         //mTextures.add(Texture.loadTextureFromApk("ship.png", getAssets()));
 
         // Cubo
-        mTextures.add(Texture.loadTextureFromApk("TextureP.png", getAssets()));
-        mTextures.add(Texture.loadTextureFromApk("TextureG.png", getAssets()));
+        //mTextures.add(Texture.loadTextureFromApk("TextureP.png", getAssets()));
+        //mTextures.add(Texture.loadTextureFromApk("TextureG.png", getAssets()));
         // Nave
-        mTextures.add(Texture.loadTextureFromApk("0Kc7k.png", getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("CylinderTargets/EyesWhite.jpg", getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("CylinderTargets/EyesWhiteDark.jpg", getAssets()));
+        //mTextures.add(Texture.loadTextureFromApk("CylinderTargets/EyesWhite.jpg", getAssets()));
+        //mTextures.add(Texture.loadTextureFromApk("CylinderTargets/EyesWhite.jpg", getAssets()));
     }
     
     

@@ -93,17 +93,11 @@ public class CylinderTargetRenderer implements GLSurfaceView.Renderer, SampleApp
     private boolean mModelIsLoaded = false;
     
     
-    public CylinderTargetRenderer(CylinderTargets activity,
-        SampleApplicationSession session)
-    {
+    public CylinderTargetRenderer(CylinderTargets activity, SampleApplicationSession session) {
         mActivity = activity;
         vuforiaAppSession = session;
-
-        // SampleAppRenderer used to encapsulate the use of RenderingPrimitives setting
-        // the device mode AR/VR and stereo mode
         mSampleAppRenderer = new SampleAppRenderer(this, mActivity, Device.MODE.MODE_AR, false, 0.010f, 5f);
     }
-    
     
     // Called when the surface is created or recreated.
     public void onSurfaceCreated(GL10 gl, EGLConfig config)
@@ -197,8 +191,9 @@ public class CylinderTargetRenderer implements GLSurfaceView.Renderer, SampleApp
         if(!mModelIsLoaded) {
             try {
                 mSphereModel = new SampleApplication3DModel();
+                //mSphereModel.loadModel(mActivity.getResources().getAssets(), "CylinderTargets/Sphere.txt");
                 //mSphereModel.loadModel(mActivity.getResources().getAssets(), "ImageTargets/Buildings.txt");
-                mSphereModel.loadModel(mActivity.getResources().getAssets(), "CylinderTargets/Sphere.txt");
+                mSphereModel.loadModel(mActivity.getResources().getAssets(), "CylinderTargets/baymax.txt");
                 mModelIsLoaded = true;
             } catch (IOException e) {
                 Log.e(LOGTAG, "Unable to load soccer ball");
@@ -277,7 +272,7 @@ public class CylinderTargetRenderer implements GLSurfaceView.Renderer, SampleApp
             modelViewMatrix = Tool.convertPose2GLMatrix(result.getPose()).getData();
 
             // draw the anchored object
-            animateObject(modelViewMatrix);
+            // animateObject(modelViewMatrix);
             
             // we move away the object from the target
             Matrix.translateM(modelViewMatrix, 0, 1.0f * kCylinderTopDiameter, 0.0f, kObjectScale);
@@ -292,7 +287,7 @@ public class CylinderTargetRenderer implements GLSurfaceView.Renderer, SampleApp
             
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextures.get(1).mTextureID[0]);
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextures.get(2).mTextureID[0]);
+            // Si quiero cargar más texturas se realiza en este punto
             GLES20.glUniform1i(texSampler2DHandle, 0);
             GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, modelViewProjection, 0);
             GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, mSphereModel.getNumObjectVertex());
@@ -325,8 +320,7 @@ public class CylinderTargetRenderer implements GLSurfaceView.Renderer, SampleApp
     }
     
     
-    public void setTextures(Vector<Texture> textures)
-    {
+    public void setTextures(Vector<Texture> textures) {
         mTextures = textures;
         
     }

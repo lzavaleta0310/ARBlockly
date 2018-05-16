@@ -18,6 +18,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 
 
 public class SampleApplication3DModel extends MeshObject {
