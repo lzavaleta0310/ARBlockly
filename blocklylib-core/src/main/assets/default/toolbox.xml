@@ -18,6 +18,8 @@
         <block type="arblock_target"></block>
         <block type="arblock_modelo_1"></block>
         <block type="arblock_modelo_2"></block>
+        <block type="arblock_modelo_3"></block>
+        <block type="arblock_modelo_4"></block>
         <block type="arblock_movimiento"></block>
         <block type="arblock_giro"></block>
         <block type="arblock_rotacion"></block>

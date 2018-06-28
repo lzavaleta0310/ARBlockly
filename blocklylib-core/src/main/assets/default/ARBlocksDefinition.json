@@ -7,12 +7,16 @@
       "name": "dropdown_target",
       "options": [
         [
-          "target_1",
+          "escenario piedras",
           "target_1"
         ],
         [
-          "target_2",
+          "escenario madera",
           "target_2"
+        ],
+        [
+          "escenario carretera",
+          "target_3"
         ]
       ]
     },
@@ -112,7 +116,7 @@
     "args0": [
       {
         "type": "field_image",
-        "src": "https://image.flaticon.com/icons/png/128/137/137068.png",
+        "src": "https://d30y9cdsu7xlg0.cloudfront.net/png/901433-200.png",
         "width": 25,
         "height": 25,
         "alt": "*"
@@ -133,6 +137,56 @@
   },
   {
     "type": "arblock_modelo_2",
+    "message0": "%1 %2 %3",
+    "args0": [
+      {
+        "type": "field_image",
+        "src": "https://github.com/lzavaleta89/ARBlockly/blob/master/Baymax.png?raw=true",
+        "width": 25,
+        "height": 25,
+        "alt": "*"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": null,
+        "check": "arblock_movimiento"
+      }
+    ],
+    "previousStatement": null,
+    "colour": 225,
+    "tooltip": "",
+    "helpUrl": ""
+  },
+  {
+    "type": "arblock_modelo_3",
+    "message0": "%1 %2 %3",
+    "args0": [
+      {
+        "type": "field_image",
+        "src": "https://github.com/lzavaleta89/ARBlockly/blob/master/image.png?raw=true",
+        "width": 25,
+        "height": 25,
+        "alt": "*"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": null,
+        "check": "arblock_movimiento"
+      }
+    ],
+    "previousStatement": null,
+    "colour": 225,
+    "tooltip": "",
+    "helpUrl": ""
+  },
+  {
+    "type": "arblock_modelo_4",
     "message0": "%1 %2 %3",
     "args0": [
       {

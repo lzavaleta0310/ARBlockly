@@ -11,10 +11,12 @@ public class ARBModel {
     private float posA;
     private float vScale;
 
+    private int tipo;
+
     public ARBModel() {
     }
 
-    public ARBModel(float posX, float posY, float posZ, float posA) {
+    /*public ARBModel(float posX, float posY, float posZ, float posA) {
         this.posX = posX;
         this.posY = posY;
         this.posZ = posZ;
@@ -27,6 +29,15 @@ public class ARBModel {
         this.posZ = posZ;
         this.posA = posA;
         this.vScale = vScale;
+    }*/
+
+    public ARBModel(float posX, float posY, float posZ, float posA, float vScale, int tipo) {
+        this.posX = posX;
+        this.posY = posY;
+        this.posZ = posZ;
+        this.posA = posA;
+        this.vScale = vScale;
+        this.tipo = tipo;
     }
 
     public float getPosX() {
@@ -67,5 +78,13 @@ public class ARBModel {
 
     public void setvScale(float vScale) {
         this.vScale = vScale;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
     }
 }

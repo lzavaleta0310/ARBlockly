@@ -30,7 +30,6 @@ public class CubeObject extends MeshObject {
 
         Matrix.translateM(modelViewMatrix, 0, this.pos_X, this.pos_Y,this.pos_Z);
         Matrix.rotateM(modelViewMatrix, 0, this.pos_A, 0.0f, 0.0f, 1.0f);
-
     }
 
     // Accessors
